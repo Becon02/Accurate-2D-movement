@@ -48,12 +48,15 @@ void SpaceLine();
 void UpdatePosition(Game game);
 float MovementX(float _xPos, float _rotation);
 float MovementY(float _yPos, float _rotation);
+void DisplayGrid(Game game);
 
 int main()
 {
     Game game;
 
     SpaceLine();
+
+    DisplayGrid(game);
 
     UpdatePosition(game);
 }
@@ -85,8 +88,7 @@ void UpdatePosition(Game game)
         {
             if (game.player[0].yPos <= 0)
             {
-                game.player[0].xPos = 10.5f;
-                game.player[0].yPos = 10.5f;
+                game.player[0].yPos += 1;
             }
             else
             {
@@ -98,8 +100,7 @@ void UpdatePosition(Game game)
         {
             if (game.player[0].xPos <= 0)
             {
-                game.player[0].xPos = 10.5f;
-                game.player[0].yPos = 10.5f;
+                game.player[0].xPos += 1;
             }
             else
             {
@@ -111,8 +112,7 @@ void UpdatePosition(Game game)
         {
             if (game.player[0].yPos >= (heigth - 1))
             {
-                game.player[0].xPos = 10.5f;
-                game.player[0].yPos = 10.5f;
+                game.player[0].yPos -= 1;
             }
             else
             {
@@ -124,8 +124,7 @@ void UpdatePosition(Game game)
         {
             if (game.player[0].xPos >= (width - 1))
             {
-                game.player[0].xPos = 10.5f;
-                game.player[0].yPos = 10.5f;
+                game.player[0].xPos -= 1;
             }
             else
             {
@@ -135,15 +134,16 @@ void UpdatePosition(Game game)
         }
         case 'q':
         {
-            if (game.player[0].xPos >= 0 || game.player[0].yPos >= (heigth - 1))
+            if (game.player[0].xPos <= 0 || game.player[0].yPos >= (heigth - 1))
             {
                 game.player[0].xPos = 10.5f;
                 game.player[0].yPos = 10.5f;
+                
             }
             else
             {
                 game.player[0].xPos = MovementX(game.player[0].xPos, 135.f);
-                game.player[0].yPos = MovementY(game.player[0].yPos, 135.f);
+                game.player[0].yPos = MovementY(game.player[0].yPos, -135.f);
             }
 
             break;
@@ -158,7 +158,7 @@ void UpdatePosition(Game game)
             else
             {
                 game.player[0].xPos = MovementX(game.player[0].xPos, 45.f);
-                game.player[0].yPos = MovementY(game.player[0].yPos, 45.f);
+                game.player[0].yPos = MovementY(game.player[0].yPos, -45.f);
             }
 
             break;
@@ -174,7 +174,7 @@ void UpdatePosition(Game game)
             else
             {
                 game.player[0].xPos = MovementX(game.player[0].xPos, 225.f);
-                game.player[0].yPos = MovementY(game.player[0].yPos, 225.f);
+                game.player[0].yPos = MovementY(game.player[0].yPos, -225.f);
             }
 
             break;
@@ -189,7 +189,7 @@ void UpdatePosition(Game game)
             else
             {
                 game.player[0].xPos = MovementX(game.player[0].xPos, 315.f);
-                game.player[0].yPos = MovementY(game.player[0].yPos, 315.f);
+                game.player[0].yPos = MovementY(game.player[0].yPos, -315.f);
             }
 
             break;
@@ -201,6 +201,8 @@ void UpdatePosition(Game game)
         system("CLS");
 
         SpaceLine();
+
+        DisplayGrid(game);
 
         std::cout << "Player position is (" << game.player[0].xPos << ", " << game.player[0].yPos << ")" << endl;
     }
@@ -238,4 +240,30 @@ float MovementY(float _yPos, float _rotation)
 
     return(_yPos);
 
+}
+
+void DisplayGrid(Game game)
+{
+    char GameMap[width][heigth];
+
+    int xPos = game.player[0].xPos;
+    int yPos = game.player[0].yPos;
+
+
+    for (int y = 0; y < heigth; y++)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            GameMap[x][y] = '.';
+
+
+            GameMap[xPos][yPos] = 1;
+
+
+            cout << GameMap[x][y] << " ";
+        }
+        cout << endl;
+    }
+
+    SpaceLine();
 }
